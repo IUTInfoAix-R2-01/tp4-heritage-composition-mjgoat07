@@ -1,39 +1,49 @@
 package cycles;
 
-
 public class VeloElec extends Velo {
 
-	private double puissanceMoteur;
+    private static double DEFAULT_FACTEUR_PUISSANCE_MOTEUR = 15.0;
 
-	public VeloElec(int braquet, double puissanceMoteur) {
-		super(braquet);
-		this.puissanceMoteur = puissanceMoteur;
-	}
+    private double facteurPuissanceMoteur;
 
-	public double getPuissanceMoteur() {
-		return puissanceMoteur;
-	}
+    public VeloElec(double braquet, double diamRoue, double facteurPuissance) {
+        super(braquet, diamRoue);
+        this.facteurPuissanceMoteur = facteurPuissance;
+    }
 
-	public void setPuissanceMoteur(double puissanceMoteur) {
-		this.puissanceMoteur = puissanceMoteur;
-	}
+    public VeloElec() {
+        super();
+        this.facteurPuissanceMoteur = DEFAULT_FACTEUR_PUISSANCE_MOTEUR;
+    }
 
-	@Override
-	public double getPuissance(double frequenceCoupsDePedale) {
-		return super.getPuissance(frequenceCoupsDePedale) + puissanceMoteur;
-	}
+    public double getFacteurPuissanceMoteur() {
+        return facteurPuissanceMoteur;
+    }
 
-	@Override
-	public String toString() {
-		return "VeloElec [" + super.toString() +
-				", puissanceMoteur=" + puissanceMoteur + "]";
-	}
+    public void setFacteurPuissanceMoteur(double facteurPuissanceMoteur) {
+        this.facteurPuissanceMoteur = facteurPuissanceMoteur;
+    }
 
-	// TEST
-	public static void main(String[] args) {
-		VeloElec ve = new VeloElec(3, 50);
-		ve.accelerer(15);
-		System.out.println(ve);
-		System.out.println("Puissance totale: " + ve.getPuissance(2));
-	}
+    @Override
+    public double getPuissance(double frequence) {
+        return super.getPuissance(frequence) * facteurPuissanceMoteur;
+    }
+
+    @Override
+    public String toString() {
+        return "VeloElec [facteurPuissanceMoteur=" + facteurPuissanceMoteur + "] "
+                + super.toString();
+    }
+
+    // ===== TEST DIRECT =====
+    public static void main(String[] args) {
+
+        VeloElec ve1 = new VeloElec(12, 26, 20);
+        System.out.println(ve1);
+        System.out.println("Puissance : " + ve1.getPuissance(90));
+
+        VeloElec ve2 = new VeloElec();
+        System.out.println(ve2);
+        System.out.println("Puissance : " + ve2.getPuissance(80));
+    }
 }

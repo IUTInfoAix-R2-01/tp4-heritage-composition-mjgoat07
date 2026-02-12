@@ -1,46 +1,70 @@
 package cycles;
-
+import java.util.Random;
 
 public class Velo {
 
-	private int braquet;
-	private double vitesse;
+    private static double DEFAULT_BRAQUET = 13.0;
 
-	public Velo(int braquet) {
-		this.braquet = braquet;
-		this.vitesse = 0;
-	}
+    private double braquet;
+    private double diamRoue;
+    private Random genAlea;
 
-	public int getBraquet() {
-		return braquet;
-	}
+    public Velo(double braquet, double diamRoue) {
+        this.braquet = braquet;
+        this.diamRoue = diamRoue;
+        this.genAlea = new Random();
+    }
 
-	public double getVitesse() {
-		return vitesse;
-	}
+    public Velo(double braquet) {
+        this(braquet, 26.0);
+    }
 
-	public void setBraquet(int braquet) {
-		this.braquet = braquet;
-	}
+    public Velo() {
+        this(DEFAULT_BRAQUET, 26.0);
+    }
 
-	public void accelerer(double increment) {
-		vitesse += increment;
-	}
+    public static double getDEFAULT_BRAQUET() {
+        return DEFAULT_BRAQUET;
+    }
 
-	public double getPuissance(double frequenceCoupsDePedale) {
-		return braquet * frequenceCoupsDePedale;
-	}
+    public static void setDEFAULT_BRAQUET(double value) {
+        DEFAULT_BRAQUET = value;
+    }
 
-	@Override
-	public String toString() {
-		return "Velo [braquet=" + braquet + ", vitesse=" + vitesse + "]";
-	}
+    public double getBraquet() {
+        return braquet;
+    }
 
-	// TEST
-	public static void main(String[] args) {
-		Velo v = new Velo(3);
-		v.accelerer(10);
-		System.out.println(v);
-		System.out.println("Puissance: " + v.getPuissance(2));
-	}
+    public void setBraquet(double braquet) {
+        this.braquet = braquet;
+    }
+
+    public double getDiamRoue() {
+        return diamRoue;
+    }
+
+    public void setDiamRoue(double diamRoue) {
+        this.diamRoue = diamRoue;
+    }
+
+    public double getPuissance(double frequence) {
+        return frequence * braquet * diamRoue * genAlea.nextDouble();
+    }
+
+    @Override
+    public String toString() {
+        return "Velo [braquet=" + braquet + ", diamRoue=" + diamRoue + "]";
+    }
+
+    // TEST 
+    public static void main(String[] args) {
+
+        Velo v1 = new Velo(12, 26);
+        System.out.println(v1);
+        System.out.println("Puissance : " + v1.getPuissance(90));
+
+        Velo v2 = new Velo();
+        System.out.println(v2);
+        System.out.println("Puissance : " + v2.getPuissance(80));
+    }
 }
